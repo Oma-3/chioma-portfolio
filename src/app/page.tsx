@@ -1542,10 +1542,26 @@ export default function Home() {
                       name="contact"
                       method="POST"
                       data-netlify="true"
+                      data-netlify-honeypot="bot-field"
                       onSubmit={handleContactSubmit}
                       className="mt-10 space-y-6"
                     >
                       <input type="hidden" name="form-name" value="contact" />
+
+                      <p
+                        aria-hidden="true"
+                        className="absolute h-px w-px overflow-hidden"
+                        style={{ clip: "rect(0 0 0 0)" }}
+                      >
+                        <label>
+                          Don&apos;t fill this out:
+                          <input
+                            name="bot-field"
+                            tabIndex={-1}
+                            autoComplete="off"
+                          />
+                        </label>
+                      </p>
 
                       {/* Name */}
                       <div>

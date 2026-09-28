@@ -19,6 +19,7 @@ import { SiJavascript, SiNextdotjs, SiTypescript } from "react-icons/si";
 
 export default function Home() {
   const [activeSection, setActiveSection] = useState("home");
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [formStatus, setFormStatus] = useState<
     "idle" | "sending" | "success" | "error"
   >("idle");
@@ -71,47 +72,137 @@ export default function Home() {
     <main>
       {/* ================= NAVBAR ================= */}
       <nav className="fixed left-0 top-0 z-50 w-full border-b border-white/[0.07] bg-[#170b20]/65 backdrop-blur-xl">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-5 lg:px-10">
-          {/* Logo */}
-          <a
-            href="#home"
-            onClick={() => setActiveSection("home")}
-            className="text-xl font-bold tracking-tight text-white"
-          >
-            Chioma
-            <span className="ml-1 text-[#e76aa9]">&lt;/&gt;</span>
-          </a>
+        <div className="mx-auto max-w-7xl px-6 lg:px-10">
+          <div className="flex items-center justify-between py-5">
+            {/* Logo */}
+            <a
+              href="#home"
+              onClick={() => {
+                setActiveSection("home");
+                setMobileMenuOpen(false);
+              }}
+              className="relative z-50 text-xl font-bold tracking-tight text-white"
+            >
+              Chioma
+              <span className="ml-1 text-[#e76aa9]">&lt;/&gt;</span>
+            </a>
 
-          {/* Desktop Navigation */}
-          <div className="hidden items-center gap-8 md:flex">
-            {navItems.map((item) => {
-              const isActive = activeSection === item.id;
+            {/* Desktop Navigation */}
+            <div className="hidden items-center gap-8 md:flex">
+              {navItems.map((item) => {
+                const isActive = activeSection === item.id;
 
-              return (
-                <a
-                  key={item.id}
-                  href={item.href}
-                  onClick={() => setActiveSection(item.id)}
-                  className={`group relative pb-2 text-sm font-medium transition-colors duration-300 ${
-                    isActive
-                      ? "text-[#f09bc5]"
-                      : "text-white/65 hover:text-white"
-                  }`}
-                >
-                  {item.name}
-
-                  <span
-                    className={`absolute bottom-0 left-0 h-[2px] rounded-full bg-gradient-to-r from-[#e76aa9] to-[#ad8be8] transition-all duration-300 ${
-                      isActive ? "w-full" : "w-0 group-hover:w-full"
+                return (
+                  <a
+                    key={item.id}
+                    href={item.href}
+                    onClick={() => setActiveSection(item.id)}
+                    className={`group relative pb-2 text-sm font-medium transition-colors duration-300 ${
+                      isActive
+                        ? "text-[#f09bc5]"
+                        : "text-white/65 hover:text-white"
                     }`}
-                  />
-                </a>
-              );
-            })}
+                  >
+                    {item.name}
+
+                    <span
+                      className={`absolute bottom-0 left-0 h-[2px] rounded-full bg-gradient-to-r from-[#e76aa9] to-[#ad8be8] transition-all duration-300 ${
+                        isActive ? "w-full" : "w-0 group-hover:w-full"
+                      }`}
+                    />
+                  </a>
+                );
+              })}
+            </div>
+
+            {/* Mobile Menu Button */}
+            <button
+              type="button"
+              onClick={() => setMobileMenuOpen((previous) => !previous)}
+              aria-label={
+                mobileMenuOpen
+                  ? "Close navigation menu"
+                  : "Open navigation menu"
+              }
+              aria-expanded={mobileMenuOpen}
+              className="relative z-50 flex h-11 w-11 items-center justify-center rounded-xl border border-white/[0.1] bg-white/[0.05] transition duration-300 hover:border-[#e76aa9]/40 hover:bg-[#e76aa9]/10 md:hidden"
+            >
+              <div className="relative h-5 w-6">
+                <span
+                  className={`absolute left-0 top-[2px] h-[2px] w-6 rounded-full bg-white transition-all duration-300 ${
+                    mobileMenuOpen
+                      ? "translate-y-[7px] rotate-45 bg-[#f09bc5]"
+                      : ""
+                  }`}
+                />
+
+                <span
+                  className={`absolute left-0 top-[9px] h-[2px] w-6 rounded-full bg-white transition-all duration-300 ${
+                    mobileMenuOpen
+                      ? "scale-x-0 opacity-0"
+                      : "scale-x-100 opacity-100"
+                  }`}
+                />
+
+                <span
+                  className={`absolute left-0 top-[16px] h-[2px] w-6 rounded-full bg-white transition-all duration-300 ${
+                    mobileMenuOpen
+                      ? "-translate-y-[7px] -rotate-45 bg-[#f09bc5]"
+                      : ""
+                  }`}
+                />
+              </div>
+            </button>
+          </div>
+
+          {/* Mobile Navigation */}
+          <div
+            className={`overflow-hidden transition-all duration-500 ease-in-out md:hidden ${
+              mobileMenuOpen
+                ? "max-h-[520px] pb-6 opacity-100"
+                : "max-h-0 pb-0 opacity-0"
+            }`}
+          >
+            <div className="relative overflow-hidden rounded-2xl border border-white/[0.08] bg-[#21102b]/95 p-3 shadow-[0_20px_60px_rgba(0,0,0,0.35)]">
+              {/* Subtle menu glow */}
+              <div className="pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full bg-[#e76aa9]/10 blur-3xl" />
+              <div className="pointer-events-none absolute -bottom-16 -left-16 h-40 w-40 rounded-full bg-[#ad8be8]/10 blur-3xl" />
+
+              <div className="relative flex flex-col">
+                {navItems.map((item) => {
+                  const isActive = activeSection === item.id;
+
+                  return (
+                    <a
+                      key={item.id}
+                      href={item.href}
+                      onClick={() => {
+                        setActiveSection(item.id);
+                        setMobileMenuOpen(false);
+                      }}
+                      className={`group flex items-center justify-between rounded-xl px-4 py-4 text-sm font-medium transition-all duration-300 ${
+                        isActive
+                          ? "bg-[#e76aa9]/10 text-[#f09bc5]"
+                          : "text-white/70 hover:bg-white/[0.05] hover:text-white"
+                      }`}
+                    >
+                      <span>{item.name}</span>
+
+                      <span
+                        className={`h-1.5 w-1.5 rounded-full transition-all duration-300 ${
+                          isActive
+                            ? "scale-100 bg-[#e76aa9] shadow-[0_0_12px_rgba(231,106,169,0.8)]"
+                            : "scale-0 bg-[#ad8be8] group-hover:scale-100"
+                        }`}
+                      />
+                    </a>
+                  );
+                })}
+              </div>
+            </div>
           </div>
         </div>
       </nav>
-
       {/* ================= HERO ================= */}
       <section
         id="home"

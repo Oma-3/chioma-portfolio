@@ -32,10 +32,13 @@ export default function Home() {
     const form = event.currentTarget;
     const formData = new FormData(form);
 
+    // Make absolutely sure Netlify receives the form name
+    formData.set("form-name", "contact");
+
     setFormStatus("sending");
 
     try {
-      const response = await fetch("/", {
+      const response = await fetch("/contact-form.html", {
         method: "POST",
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
@@ -54,7 +57,8 @@ export default function Home() {
 
       form.reset();
       setFormStatus("success");
-    } catch {
+    } catch (error) {
+      console.error("Contact form error:", error);
       setFormStatus("error");
     }
   };

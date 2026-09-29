@@ -266,6 +266,7 @@ export default function Home() {
 
               <a
                 href="/Chioma-Iwegbuna-CV.pdf"
+                download="Chioma-Iwegbuna-CV.pdf"
                 className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.04] px-7 py-3.5 text-sm font-semibold text-white/80 backdrop-blur-md transition duration-300 hover:-translate-y-1 hover:border-[#e76aa9]/50 hover:bg-[#e76aa9]/[0.07] hover:text-white"
               >
                 Download CV
